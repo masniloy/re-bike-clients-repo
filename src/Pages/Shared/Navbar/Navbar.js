@@ -1,4 +1,5 @@
 import React from 'react';
+import logo from '../../../logo.png';
 
 const Navbar = () => {
     return (
@@ -23,7 +24,8 @@ const Navbar = () => {
                         <li><a>Item 3</a></li>
                     </ul>
                 </div>
-                <a className="btn btn-ghost normal-case text-xl">daisyUI</a>
+                <img src={logo} className="w-20" ></img>
+                <a className="ml-4 text-2xl"><b>Re-Bike</b> </a>
             </div>
             <div className="navbar-center hidden lg:flex">
                 <ul className="menu menu-horizontal p-0">
@@ -42,8 +44,26 @@ const Navbar = () => {
                 </ul>
             </div>
             <div className="navbar-end">
-                <a className="btn">Get started</a>
+                <div className="dropdown dropdown-end">
+                    <label tabIndex={0} className="btn btn-ghost btn-circle avatar">
+                        <div className="w-10 rounded-full">
+                            <img src="https://placeimg.com/80/80/people" />
+                        </div>
+                    </label>
+                    <ul tabIndex={0} className="menu menu-compact dropdown-content mt-3 p-2 shadow bg-base-100 rounded-box w-52">
+                        <li>
+                            <a className="justify-between">
+                                Profile
+                                <span className="badge">New</span>
+                            </a>
+                        </li>
+                        <li><a>Settings</a></li>
+                        <li><a>Logout</a></li>
+                    </ul>
+                </div>
             </div>
+
+
         </div>
     );
 };
