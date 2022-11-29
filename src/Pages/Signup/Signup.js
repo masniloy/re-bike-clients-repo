@@ -18,6 +18,17 @@ const Signup = () => {
                         <input type="email" placeholder="email" className="input input-bordered" required />
                     </div>
                     <div className="form-control">
+                        <label className="label" name='option'>
+                            <span className="label-text">Option</span>
+                        </label>
+                        <select className="select select-bordered w-full max-w-xs">
+                            <option disabled selected>Select</option>
+                            <option>User</option>
+                            <option>Seller</option>
+                        </select>
+
+                    </div>
+                    <div className="form-control">
                         <label className="label" name='password'>
                             <span className="label-text">Password</span>
                         </label>
