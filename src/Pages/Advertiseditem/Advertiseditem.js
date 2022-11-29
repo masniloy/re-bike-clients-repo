@@ -3,6 +3,7 @@ import React from 'react';
 const Advertiseditem = () => {
     return (
         <div>
+            <h1 className="text-4xl font-bold">Recent products</h1><br />
             <div className="card w-96 bg-base-100 shadow-xl">
                 <figure><img src="https://placeimg.com/400/225/arch" alt="Shoes" /></figure>
                 <div className="card-body">
