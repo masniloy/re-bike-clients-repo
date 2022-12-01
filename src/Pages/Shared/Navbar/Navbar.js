@@ -21,8 +21,17 @@ const Navbar = () => {
                         <svg xmlns="http://www.w3.org/2000/svg" className="h-5 w-5" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M4 6h16M4 12h8m-8 6h16" /></svg>
                     </label>
                     <ul tabIndex={0} className="menu menu-compact dropdown-content mt-3 p-2 shadow bg-base-100 rounded-box w-52">
-                        <Link to="/category"><li><a>Category</a></li></Link>
-                        <Link to="/blogs"><li><a>Blogs</a></li></Link>
+                        <div className="dropdown dropdown-right">
+                            <Link to="/blogs" className='btn btn-ghost'><li><a>Blogs</a></li></Link>
+                            <Link tabIndex={0} className="btn btn-ghost m-1">Category</Link>
+                            <ul tabIndex={0} className="dropdown-content menu p-2 shadow bg-base-100 rounded-box w-52">
+                                {
+                                    categories.map(category => <li key={category._id}><Link to={`/category/${category._id}`}>{category.categoryName}</Link></li>)
+                                }
+                            </ul>
+
+                        </div>
+
                     </ul>
                 </div>
                 <Link to='/' className='flex '>
