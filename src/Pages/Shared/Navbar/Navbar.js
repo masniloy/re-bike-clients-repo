@@ -1,11 +1,21 @@
-import React, { useEffect, useState } from 'react';
+import React, { useContext, useEffect, useState } from 'react';
 import { Link } from 'react-router-dom';
+import { AuthContext } from '../../../contexts/AuthProvider';
 import logo from '../../../logo.png';
+import { FaUserAlt } from "react-icons/fa";
 
 const Navbar = () => {
     const [categories, setCategories] = useState([]);
+    const { user, logOut } = useContext(AuthContext);
+
+    const handleLogOut = () => {
+        logOut()
+            .then(() => { })
+            .catch(error => console.error(error))
+    }
 
     useEffect(() => {
+
         fetch('http://localhost:5000/category')
             .then(res => res.json())
             .then(data => {
@@ -22,6 +32,7 @@ const Navbar = () => {
                     </label>
                     <ul tabIndex={0} className="menu menu-compact dropdown-content mt-3 p-2 shadow bg-base-100 rounded-box w-52">
                         <div className="dropdown dropdown-right">
+                            <Link className='btn btn-ghost m-1' to="/"><li><a>Home</a></li></Link>
                             <Link to="/blogs" className='btn btn-ghost'><li><a>Blogs</a></li></Link>
                             <Link tabIndex={0} className="btn btn-ghost m-1">Category</Link>
                             <ul tabIndex={0} className="dropdown-content menu p-2 shadow bg-base-100 rounded-box w-52">
@@ -42,6 +53,7 @@ const Navbar = () => {
             </div>
             <div className="navbar-center hidden lg:flex">
                 <ul className="menu menu-horizontal p-0">
+                    <Link className='btn btn-ghost m-1' to="/"><li><a>Home</a></li></Link>
                     <div className="dropdown">
                         <Link tabIndex={0} className="btn btn-ghost m-1">Category</Link>
                         <ul tabIndex={0} className="dropdown-content menu p-2 shadow bg-base-100 rounded-box w-52">
@@ -55,23 +67,32 @@ const Navbar = () => {
                 </ul>
             </div>
             <div className="navbar-end">
-                <div className="dropdown dropdown-end">
-                    <label tabIndex={0} className="btn btn-ghost btn-circle avatar">
-                        <div className="w-10 rounded-full">
-                            <img src="https://placeimg.com/80/80/people" />
-                        </div>
-                    </label>
-                    <ul tabIndex={0} className="menu menu-compact dropdown-content mt-3 p-2 shadow bg-base-100 rounded-box w-52">
-                        <li>
-                            <a className="justify-between">
-                                Profile
-                                <span className="badge">New</span>
-                            </a>
-                        </li>
-                        <Link to="/login"><li><a>Login</a></li></Link>
 
-                    </ul>
-                </div>
+                <Link>
+                    {
+                        user?.uid ?
+                            <>
+                                <div className="dropdown dropdown-end">
+                                    <label tabIndex={0} className="btn btn-ghost btn-circle avatar">
+                                        <div className="w-10 rounded-full">
+                                            <img src="https://placeimg.com/80/80/people" />
+                                        </div>
+                                    </label>
+                                    <ul tabIndex={0} className="menu menu-compact dropdown-content mt-3 p-2 shadow bg-base-100 rounded-box w-52">
+                                        <Link onClick={handleLogOut}><li><a>Log Out</a></li></Link>
+                                    </ul>
+                                </div>
+                            </>
+                            : <>
+
+                                <Link to="/login"><FaUserAlt />Login</Link>
+
+
+                            </>
+                    }
+                </Link>
+
+
             </div><br /><br />
 
 

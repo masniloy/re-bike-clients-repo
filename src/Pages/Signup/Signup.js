@@ -1,18 +1,31 @@
-import React, { useContext } from 'react';
+import React, { useContext, useState } from 'react';
 import { Link } from 'react-router-dom';
 import { useForm } from "react-hook-form";
 import { AuthContext } from '../../contexts/AuthProvider';
+import toast from 'react-hot-toast';
 const Signup = () => {
     const { register, handleSubmit, formState: { errors } } = useForm();
-
-    const { createUser } = useContext(AuthContext)
+    const { createUser, updateUser } = useContext(AuthContext)
+    const [signUpError, setSignUpError] = useState('')
 
     const handleSignUp = (data) => {
         console.log(data);
+        setSignUpError('');
         createUser(data.email, data.password)
             .then(result => {
                 const user = result.user;
                 console.log(user);
+                toast('Sign up Successfully.')
+                const userInfo = {
+                    displayName: data.name
+                }
+                updateUser(userInfo)
+                    .then(() => { })
+                    .catch(err => console.log(err))
+            })
+            .catch(error => {
+                console.log(error);
+                setSignUpError(error.message)
             })
             .catch(error => console.log(error));
     }
@@ -26,8 +39,8 @@ const Signup = () => {
                         <label className="label">
                             <span className="label-text"><b>Your Name</b></span>
                         </label>
-                        <input type="text" placeholder="name" className="input input-bordered w-full max-w-xs" {...register("name", { required: "Email Address is required" })} />
-                        {errors.mail && <p role="alert">{errors.email?.message}</p>}
+                        <input type="text" placeholder="name" className="input input-bordered w-full max-w-xs" {...register("name", { required: true })} />
+
                     </div>
 
                     <div className="form-control w-full max-w-xs">
@@ -55,6 +68,7 @@ const Signup = () => {
                     <label className="label">
                         <span className="label-text ">Already have an account.</span><Link to="/login" className='text-cyan-500'>Please login</Link>
                     </label>
+                    {signUpError && <p className='text-red-500'>{signUpError}</p>}
                     <div className="divider">OR</div>
                     <button className='btn btn-outline btn-primary w-full'>Continue With Google</button>
                 </form>
