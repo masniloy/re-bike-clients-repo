@@ -1,8 +1,18 @@
-import React from 'react';
+import React, { useEffect, useState } from 'react';
 import { Link } from 'react-router-dom';
 import logo from '../../../logo.png';
 
 const Navbar = () => {
+    const [categories, setCategories] = useState([]);
+
+    useEffect(() => {
+        fetch('http://localhost:5000/category')
+            .then(res => res.json())
+            .then(data => {
+                setCategories(data);
+            })
+    }, []);
+
     return (
         <div className="navbar bg-base-100">
             <div className="navbar-start">
@@ -23,8 +33,16 @@ const Navbar = () => {
             </div>
             <div className="navbar-center hidden lg:flex">
                 <ul className="menu menu-horizontal p-0">
-                    <Link to="/category"><li><a>Category</a></li></Link>
-                    <Link to="/blogs"><li><a>Blogs</a></li></Link>
+                    <div className="dropdown">
+                        <Link tabIndex={0} className="btn btn-ghost m-1">Category</Link>
+                        <ul tabIndex={0} className="dropdown-content menu p-2 shadow bg-base-100 rounded-box w-52">
+                            {
+                                categories.map(category => <li key={category._id}><Link to={`/category/${category._id}`}>{category.categoryName}</Link></li>)
+                            }
+                        </ul>
+                    </div>
+
+                    <Link className='btn btn-ghost m-1' to="/blogs"><li><a>Blogs</a></li></Link>
                 </ul>
             </div>
             <div className="navbar-end">
@@ -45,7 +63,7 @@ const Navbar = () => {
 
                     </ul>
                 </div>
-            </div>
+            </div><br /><br />
 
 
         </div>
