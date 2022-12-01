@@ -11,6 +11,7 @@ const Login = () => {
 
     const handleSignIn = (data) => {
         console.log(data);
+        setLoginError('');
         signIn(data.email, data.password)
             .then(result => {
                 const user = result.user;
@@ -54,7 +55,7 @@ const Login = () => {
                             </div>
                             <div>
                                 {
-                                    loginError && <p>{loginError}</p>
+                                    loginError && <p className="text-red-500">{loginError}</p>
                                 }
                             </div>
 
