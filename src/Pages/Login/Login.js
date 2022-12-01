@@ -1,7 +1,28 @@
-import React from 'react';
 import { Link } from 'react-router-dom';
+import { useForm } from "react-hook-form";
+import { useContext, useState } from 'react';
+import { AuthContext } from '../../contexts/AuthProvider';
 
 const Login = () => {
+    const { register, formState: { errors }, handleSubmit } = useForm();
+
+    const { signIn } = useContext(AuthContext);
+    const [loginError, setLoginError] = useState('')
+
+    const handleSignIn = (data) => {
+        console.log(data);
+        signIn(data.email, data.password)
+            .then(result => {
+                const user = result.user;
+                console.log(user);
+            })
+            .catch(error => {
+                console.log(error.message);
+                setLoginError(error.message);
+            });
+    }
+
+
     return (
         <div className="">
             <div className="mx-4 hero ">
@@ -10,33 +31,46 @@ const Login = () => {
                         <h1 className=" text-center text-5xl font-bold">Login now!</h1>
                         <p className="py-6">Re-Bike is the best platform to buy/sell second hand motorcycle. You can simply post your free add and get call from interested buyer from anywhere. Check valid document/papers, current condition of the bike and deal with the seller in right way.</p>
                     </div>
-                    <div className="mx-auto card flex-shrink-0 w-full max-w-sm shadow-2xl bg-base-100">
-                        <form className="card-body">
-                            <div className="form-control">
+                    <div className="mx-auto card flex-shrink-0 w-full max-w-sm shadow-2xl bg-base-100 p-8">
+
+                        <form onSubmit={handleSubmit(handleSignIn)}>
+                            <div className="form-control w-full max-w-xs">
                                 <label className="label">
-                                    <span className="label-text">Email</span>
+                                    <span className="label-text"><b>Email</b></span>
                                 </label>
-                                <input type="text" placeholder="email" className="input input-bordered" />
+                                <input type="email" placeholder="email" className="input input-bordered w-full max-w-xs" {...register("email", { required: "Email Address is required" })} />
+                                {errors.mail && <p role="alert">{errors.email?.message}</p>}
                             </div>
-                            <div className="form-control">
+
+
+                            <div className="form-control w-full max-w-xs">
                                 <label className="label">
-                                    <span className="label-text">Password</span>
+                                    <span className="label-text"><b>Password</b></span>
                                 </label>
-                                <input type="text" placeholder="password" className="input input-bordered" />
+                                <input type="password" placeholder="password" className="input input-bordered w-full max-w-xs" {...register("password", { required: true })} />
                                 <label className="label">
-                                    <Link href="#" className="label-text-alt link link-hover">Forgot password?</Link>
+                                    <span className="label-text ">Fotrget Password?</span>
                                 </label>
                             </div>
-                            <div className="form-control mt-6">
-                                <input className="btn btn-primary" type="submit" value="Login" />
+                            <div>
+                                {
+                                    loginError && <p>{loginError}</p>
+                                }
                             </div>
-                            <p>Don't have Account <Link className='text-sky-500' to='/Signup' >Sign Up</Link></p>
+
+                            <br />
+                            <input className='btn btn-primary w-full' value="Login" type="submit" />
+                            <label className="label">
+                                <span className="label-text ">I don't have any account !</span><Link to="/signup" className='text-cyan-500'>Creat new account</Link>
+                            </label>
+                            <div className="divider">OR</div>
+                            <button className='btn btn-outline btn-primary w-full'>Continue With Google</button>
                         </form>
                     </div>
                 </div>
             </div><br /><br />
 
-        </div>
+        </div >
     );
 };
 

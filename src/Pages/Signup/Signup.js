@@ -1,46 +1,62 @@
-import React from 'react';
+import React, { useContext } from 'react';
 import { Link } from 'react-router-dom';
+import { useForm } from "react-hook-form";
+import { AuthContext } from '../../contexts/AuthProvider';
 const Signup = () => {
+    const { register, handleSubmit, formState: { errors } } = useForm();
+
+    const { createUser } = useContext(AuthContext)
+
+    const handleSignUp = (data) => {
+        console.log(data);
+        createUser(data.email, data.password)
+            .then(result => {
+                const user = result.user;
+                console.log(user);
+            })
+            .catch(error => console.log(error));
+    }
     return (
         <div>
-            <div className="mx-auto card flex-shrink-0 w-full max-w-sm shadow-2xl bg-base-100">
-                <form className="card-body">
-                    <div className="form-control" name="name">
-                        <label className="label" >
-                            <span className="label-text">Name</span>
-                        </label>
-                        <input type="text" placeholder="name" className="input input-bordered" required />
-                    </div>
-                    <div className="form-control">
-                        <label className="label" name='email'>
-                            <span className="label-text">Email</span>
-                        </label>
-                        <input type="email" placeholder="email" className="input input-bordered" required />
-                    </div>
-                    <div className="form-control">
-                        <label className="label" name='option'>
-                            <span className="label-text">Option</span>
-                        </label>
-                        <select className="select select-bordered w-full max-w-xs">
-                            <option disabled selected>Select</option>
-                            <option>User</option>
-                            <option>Seller</option>
-                        </select>
+            <div className="mx-auto card flex-shrink-0 w-full max-w-sm shadow-2xl bg-base-100 p-8">
 
-                    </div>
-                    <div className="form-control">
-                        <label className="label" name='password'>
-                            <span className="label-text">Password</span>
-                        </label>
-                        <input type="password" placeholder="password" className="input input-bordered" required /><br />
-                        <input type="file" className="file-input file-input-bordered file-input-sm w-full max-w-xs" />
-                    </div>
-                    <div className="form-control mt-6">
-                        <input className="btn btn-primary" type="submit" value="Sign Up" />
-                    </div>
-                    <p>Already have an Account <Link className='text-sky-500' to='/login' >Login</Link></p>
-                    <input className="btn btn-primary" type="submit" value="Sign Up With Google" />
+                <form onSubmit={handleSubmit(handleSignUp)}>
 
+                    <div className="form-control w-full max-w-xs">
+                        <label className="label">
+                            <span className="label-text"><b>Your Name</b></span>
+                        </label>
+                        <input type="text" placeholder="name" className="input input-bordered w-full max-w-xs" {...register("name", { required: "Email Address is required" })} />
+                        {errors.mail && <p role="alert">{errors.email?.message}</p>}
+                    </div>
+
+                    <div className="form-control w-full max-w-xs">
+                        <label className="label">
+                            <span className="label-text"><b>Email</b></span>
+                        </label>
+                        <input type="email" placeholder="email" className="input input-bordered w-full max-w-xs" {...register("email", { required: true })} />
+                    </div>
+
+
+                    <div className="form-control w-full max-w-xs">
+                        <label className="label">
+                            <span className="label-text"><b>Password</b></span>
+                        </label>
+                        <input type="password" placeholder="password" className="input input-bordered w-full max-w-xs" {...register("password", { required: true })} />
+                    </div>
+                    <label className="label">
+                        <span className="label-text"><b>IMAGE</b></span>
+                        <input type="file" class="file-input file-input-bordered file-input-xs w-full max-w-xs m-3" />
+                    </label>
+
+
+
+                    <input className='btn btn-primary w-full' value="Sign up" type="submit" />
+                    <label className="label">
+                        <span className="label-text ">Already have an account.</span><Link to="/login" className='text-cyan-500'>Please login</Link>
+                    </label>
+                    <div className="divider">OR</div>
+                    <button className='btn btn-outline btn-primary w-full'>Continue With Google</button>
                 </form>
             </div>
             <br /><br /><br />

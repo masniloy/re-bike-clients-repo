@@ -1,7 +1,6 @@
 import React from 'react';
 import About from '../../About/About';
 import Advertiseditem from '../../Advertiseditem/Advertiseditem';
-import Category from '../../Category/Category';
 import Banner from '../Banner/Banner';
 
 
