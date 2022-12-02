@@ -8,6 +8,10 @@ import Home from '../../Pages/Home/Home/Home';
 import Login from '../../Pages/Login/Login';
 import Signup from '../../Pages/Signup/Signup';
 import PrivateRoute from '../PrivateRoute/PrivateRoute';
+import DeshboardLayout from '../../Layout/DeshboardLayout';
+import Dashboard from '../../Pages/Dashboard/Dashboard';
+import Booked from '../../Pages/Booked/Booked';
+
 
 const router = createBrowserRouter([
 
@@ -44,7 +48,24 @@ const router = createBrowserRouter([
                 },
                 element: <PrivateRoute><Category></Category></PrivateRoute>
             },
+
         ]
+    },
+    {
+
+        path: '/dashboard',
+        element: <PrivateRoute><DeshboardLayout></DeshboardLayout> </PrivateRoute>,
+        children: [
+            {
+                path: '/dashboard',
+                element: <Dashboard></Dashboard>
+            },
+            {
+                path: '/dashboard/booked',
+                element: <Booked></Booked>
+            },
+        ]
+
     }
 ])
 

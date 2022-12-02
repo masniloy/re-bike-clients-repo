@@ -64,6 +64,7 @@ const Navbar = () => {
                     </div>
 
                     <Link className='btn btn-ghost m-1' to="/blogs"><li><a>Blogs</a></li></Link>
+                    <Link className='btn btn-ghost m-1' to="/dashboard"><li><a>Dashboard</a></li></Link>
                 </ul>
             </div>
             <div className="navbar-end">
