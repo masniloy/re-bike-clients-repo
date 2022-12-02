@@ -1,5 +1,5 @@
 import React, { } from 'react';
-const SingleCategory = ({ product }) => {
+const SingleCategory = ({ product, setBookingProduct }) => {
     console.log(product);
     const { product_name, seler_name, email, img, original_price, resale_price, use, description, location, phone } = product;
     return (
@@ -18,7 +18,7 @@ const SingleCategory = ({ product }) => {
                     <p> <b>Description:</b> {description}</p><br />
 
                     <div className="card-actions justify-end">
-                        <button className="btn btn-primary">Book Now</button>
+                        <label htmlFor="bookModal" className="btn btn-primary" onClick={() => setBookingProduct(product)}>Book Now</label>
                     </div>
                 </div>
             </div>

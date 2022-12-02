@@ -16,7 +16,7 @@ const Navbar = () => {
 
     useEffect(() => {
 
-        fetch('http://localhost:5000/category')
+        fetch('https://re-bike.vercel.app/category')
             .then(res => res.json())
             .then(data => {
                 setCategories(data);
